@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-class RestauranteComDistanciaDto {
+public class RestauranteComDistanciaDto {
 
 	private Long restauranteId;
 

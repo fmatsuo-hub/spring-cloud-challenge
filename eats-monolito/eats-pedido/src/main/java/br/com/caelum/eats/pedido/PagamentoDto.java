@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-class PagamentoDto {
+public class PagamentoDto {
 
 	private String status;
 
