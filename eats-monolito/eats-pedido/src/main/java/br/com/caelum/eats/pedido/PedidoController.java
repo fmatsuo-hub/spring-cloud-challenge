@@ -19,6 +19,8 @@ import lombok.AllArgsConstructor;
 class PedidoController {
 
 	private PedidoRepository repo;
+	
+	private PedidoService pedidoService;
 
 	@GetMapping("/pedidos")
 	List<PedidoDto> lista() {
@@ -42,6 +44,10 @@ class PedidoController {
 		pedido.getItens().forEach(item -> item.setPedido(pedido));
 		pedido.getEntrega().setPedido(pedido);
 		Pedido salvo = repo.save(pedido);
+		
+		pedidoService.buscaDistanciaRestaurante(pedido);
+		pedidoService.confirmaPagamento();
+		
 		return new PedidoDto(salvo);
 	}
 
