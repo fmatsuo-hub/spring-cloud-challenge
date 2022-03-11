@@ -1,5 +1,6 @@
 package br.com.caelum.eats.pedido;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -44,11 +45,19 @@ class PedidoController {
 		pedido.getItens().forEach(item -> item.setPedido(pedido));
 		pedido.getEntrega().setPedido(pedido);
 		Pedido salvo = repo.save(pedido);
-		
-		pedidoService.buscaDistanciaRestaurante(pedido);
-		pedidoService.confirmaPagamento();
-		
+		//pedidoService.buscaDistanciaRestaurante(pedido);
+		//pedidoService.confirmaPagamento(1);
 		return new PedidoDto(salvo);
+	}
+	
+	@GetMapping("/pedidos/distancia")
+	BigDecimal distancia(@RequestBody Pedido pedido) {
+		return pedidoService.buscaDistanciaRestaurante(pedido);
+	}
+	
+	@PutMapping("/pedidos/confirmaPgto/{id}")
+	String confirma(@PathVariable("id") Long id) {
+		return pedidoService.confirmaPagamento(id);
 	}
 
 	@PutMapping("/pedidos/{pedidoId}/status")

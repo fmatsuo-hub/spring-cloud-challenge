@@ -1,5 +1,7 @@
 package br.com.caelum.eats.pedido;
 
+import java.math.BigDecimal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class PedidoService {
 		repo.atualizaStatus(status, pedido);
 	}
 	
-	public void buscaDistanciaRestaurante(Pedido pedido) {
+	public BigDecimal buscaDistanciaRestaurante(Pedido pedido) {
 		
 		String cep = pedido.getEntrega().getCep();
 		Long id = pedido.getRestaurante().getId();
@@ -36,13 +38,17 @@ public class PedidoService {
 		LOG.info("buscando distancia do restaurante");
 		RestauranteComDistanciaDto distancia = distanciaClient.comDistanciaPorId(cep, id);
 		System.out.println("Distancia do restaurante: " + distancia.getDistancia());
+		
+		return distancia.getDistancia();
 	}
 	
-	public void confirmaPagamento() {
+	public String confirmaPagamento(Long id) {
 		
-		LOG.info("confirmando pagamento id {}", 1L);
-		PagamentoDto pagamento = pagamentoClient.confirma(1L);
+		LOG.info("confirmando pagamento id {}", id);
+		PagamentoDto pagamento = pagamentoClient.confirma(id);
 		System.out.println("Status Pagamento: " + pagamento.getStatus());
+		
+		return pagamento.getStatus();
 	}
 
 }
