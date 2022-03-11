@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,8 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/pagamentos")
 @AllArgsConstructor
 class PagamentoController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(PagamentoController.class);
 
 	private PagamentoRepository pagamentoRepo;
 	private ClienteRestDoPedido pedidoCliente;
@@ -54,6 +58,7 @@ class PagamentoController {
 		pagamento.setStatus(Pagamento.Status.CONFIRMADO);
 		pedidoCliente.notificaPagamentoDoPedido(pagamento.getPedidoId());
 		pagamentoRepo.save(pagamento);
+		LOG.info("recebida requisicao de confirmacao do pagamento id {}", 1L);
 		return new PagamentoDto(pagamento);
 	}
 
